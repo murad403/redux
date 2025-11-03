@@ -5,34 +5,34 @@ const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({baseUrl: "your base url"}),
     tagTypes: ["User"],
-    endpoints: (builder) =>({
-        getUser: builder.query({
-            query: (query) =>{
-                const params = new URLSearchParams();
-                if(query){
-                    params.append("search", query);
-                }
-                return {
-                    url: "/user",
-                    method: "GET",
-                    params: params
-                }
-            },
-            providesTags: ["User"]
-        }),
-        addUser: builder.mutation({
-            query: (data) =>{
-                return {
-                    url: "/user",
-                    method: "POST",
-                    body: data
-                }
-            },
-            invalidatesTags: ["User"]
-        })
+    endpoints: () =>({
+        // getUser: builder.query({
+        //     query: (query) =>{
+        //         const params = new URLSearchParams();
+        //         if(query){
+        //             params.append("search", query);
+        //         }
+        //         return {
+        //             url: "/user",
+        //             method: "GET",
+        //             params: params
+        //         }
+        //     },
+        //     providesTags: ["User"]
+        // }),
+        // addUser: builder.mutation({
+        //     query: (data) =>{
+        //         return {
+        //             url: "/user",
+        //             method: "POST",
+        //             body: data
+        //         }
+        //     },
+        //     invalidatesTags: ["User"]
+        // })
     })
 })
 
-export const {useGetUserQuery, useAddUserMutation} = baseApi;
+// export const {useGetUserQuery, useAddUserMutation} = baseApi;
 
 export default baseApi;

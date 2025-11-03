@@ -1,5 +1,5 @@
 import Box from "./components/ui/Box";
-import { decreament, increament, increamentByValue } from "./redux/features/counterSlice";
+import { decreament, increament, increamentByValue } from "./redux/features/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 
 function App() {
