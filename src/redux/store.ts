@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counter/counterSlice.ts";
 import authReducer from "./features/auth/authSlice.ts";
 import baseApi from "./api/api.ts";
-import {persistReducer, persistStore} from "redux-persist";
+import {persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 // import logger from "./middleware/logger.ts";
 
@@ -20,7 +20,11 @@ const store = configureStore({
         [baseApi.reducerPath]: baseApi.reducer
     },
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        }
+    }).concat(baseApi.middleware)
 })
 
 export const persistor = persistStore(store);

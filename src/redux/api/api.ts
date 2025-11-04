@@ -1,9 +1,34 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { RootState } from "../store";
+import { setUser } from "../features/auth/authSlice";
 
+const baseQuery = fetchBaseQuery({
+    baseUrl: "your base url",
+    credentials: "include",
+    prepareHeaders: (headers, {getState}) =>{
+        const token = (getState() as RootState).auth.accessToken;
+        if(token){
+            headers.set('authorization', `Bearer ${token}`);
+        }
+        return headers;
+    }
+})
+
+const baseQueryRefreshToken = async(args, api, extraoptions) =>{
+    const result = await baseQuery(args, api, extraoptions);
+    console.log(result);
+    if(result.error?.status === 401){
+        console.log("sending request for access token generate");
+        const data = req.json()//after sending request----
+        const user = (api.getState() as RootState).auth.user;
+        api.dispatch(setUser({user, accessToken: data?.accessToken}))
+    }
+    return result;
+}
 
 const baseApi = createApi({
     reducerPath: "baseApi",
-    baseQuery: fetchBaseQuery({baseUrl: "your base url"}),
+    baseQuery: baseQueryRefreshToken,
     tagTypes: ["User"],
     endpoints: () =>({
         // getUser: builder.query({
