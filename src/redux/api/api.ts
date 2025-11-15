@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createApi, DefinitionType, fetchBaseQuery, type BaseQueryApi, type BaseQueryFn, type FetchArgs } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../store";
 import { setUser } from "../features/auth/authSlice";
 import axios from "axios";
@@ -18,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 
 
 // custome base query------------------------------------------------------------------------------- 
-const baseQueryRefreshToken = async (args, api, extraoptions) => {
+const baseQueryRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, DefinitionType> = async (args, api, extraoptions): Promise<any> => {
     let result = await baseQuery(args, api, extraoptions);
     console.log(result);
     if (result.error?.status === 401) {
